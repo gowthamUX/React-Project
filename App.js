@@ -39,22 +39,26 @@ const styleCard = {
     backgroundColor: "#f0f0f0"
 }
 
-const RestaurantCard = () => {
+const RestaurantCard = (props) => {
+
+    const {resData} = props
+
+    const {name, cuisines, costForTwo, avgRating, cloudinaryImageId} = resData?.info
     return (
         <div className="res-card" style={styleCard}>
             <img
             className="res-logo" 
             alt= "res-logo" 
-            src="https://media.istockphoto.com/id/488481490/photo/fish-biryani-with-basmati-rice-indian-food.jpg?s=612x612&w=0&k=20&c=9xEw3VOQSz9TP8yQr60L47uExyKF9kogRhQdlghlC00="></img>
-            <h3>Nawabs Kitchen</h3>
-            <h4> Biryani. North Indian, Asian</h4>
-            <h4> 4.5 stars</h4>
-            <h4> 38 minutes</h4>
-        </div>
+            src={"https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_660/"+ cloudinaryImageId}></img>
+            <h3>{name}</h3>
+            <h4> {cuisines.join(", ")}</h4>
+            <h4> {rcostForTwo}</h4>
+            <h4> {avgRating}</h4>
+        </div>  
     )
 }
 
-const resData = [
+const resList = [
     {
         info: {
             id: "711710",
@@ -902,7 +906,9 @@ const Body = () => {
             <div className="search">Seacrh</div>
 
             <div className="res-conatainer">
-                <RestaurantCard/>
+
+                <RestaurantCard resData = {resList[0]}/>
+
             </div>
         </div>
     )
