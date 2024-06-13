@@ -2,6 +2,7 @@ import RestaurantCard from "./RestaurantCard";
 import { useEffect, useState } from "react";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
+import useOnlineStatus from "../utils/useOnlineStatus";
 
 const Body = () => {
 
@@ -30,17 +31,25 @@ const Body = () => {
         }
      } 
 
+     console.log(restaurantList)
+
+     const onlineStatus = useOnlineStatus();
+
+     if(onlineStatus === false){
+        return <h1>looks like you are offline</h1>
+     }
+
      if(restaurantList.length === 0){
         return <Shimmer />
      }
 
     return (
         <div className="body">
-            <div className="filter">
+            <div className="p-3 m-3 flex justify-between">
 
                 <div>
-                    <input type="text" className="search-box" value={searchText}  onChange={(e) =>setsearchText(e.target.value) }></input>
-                    <button onClick={()=> {
+                    <input type="text" className="border border-solid border-black m-3" value={searchText}  onChange={(e) =>setsearchText(e.target.value) }></input>
+                    <button className=" bg-green-200 rounded-lg px-4 py-1" onClick={()=> {
                         
                             const filterdRes = restaurantList.filter((res) => res.info.name.toLowerCase().includes(searchText.toLowerCase()));
                             setfilrestaurantList(filterdRes)
@@ -48,7 +57,7 @@ const Body = () => {
                     }}>search</button>
                 </div>
 
-                <button className="filter-btn" onClick={ () => { 
+                <button className="mx-8 bg-gray-100 px-4 rounded-lg" onClick={ () => { 
                     const resData = restaurantList.filter((restaurant) =>restaurant.info.avgRating >= 4 )
 
                     setfilrestaurantList(resData);
@@ -56,7 +65,7 @@ const Body = () => {
                 }}>Top Rated Restaurants</button>
             </div>
 
-            <div className="res-conatainer">
+            <div className="flex flex-wrap">
 
                 { filrestaurantList.map( (restaurant) => 
                 
